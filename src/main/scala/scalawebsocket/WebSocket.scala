@@ -18,7 +18,9 @@ package scalawebsocket
 
 import com.ning.http.client.{websocket, AsyncHttpClient}
 import com.ning.http.client.websocket.{WebSocketTextListener, WebSocketByteListener, WebSocketUpgradeHandler}
-import com.typesafe.scalalogging.log4j.Logging
+import org.apache.log4j.Logger
+
+// import com.typesafe.scalalogging.log4j.Logging
 
 object WebSocket {
   def apply() = {
@@ -36,7 +38,7 @@ object WebSocket {
   *
   * @param client preconfigured instance of the [[com.ning.http.client.AsyncHttpClient]]
   */
-class WebSocket(client: AsyncHttpClient) extends Logging {
+class WebSocket(client: AsyncHttpClient) /* extends Logging  */{
   self =>
 
   type OnTextMessageHandler = String => Unit
@@ -50,7 +52,7 @@ class WebSocket(client: AsyncHttpClient) extends Logging {
   private var openHandlers = List[OnWebSocketOperationHandler]()
   private var closeHandlers = List[OnWebSocketOperationHandler]()
   private var errorHandlers = List[OnErrorHandler]()
-
+ val logger = Logger.getLogger(getClass.getName)
   /** Open a websocket to the specified url
     *
     * @param url url to connecto to
@@ -94,11 +96,11 @@ class WebSocket(client: AsyncHttpClient) extends Logging {
       }
 
       def onFragment(fragment: String, last: Boolean) {
-        logger.trace("noop")
+        logger.debug("OnFragment  String noop")
       }
 
       def onFragment(fragment: Array[Byte], last: Boolean) {
-        logger.trace("noop")
+        logger.debug("OnFragment Array noop")
       }
     }
   }
